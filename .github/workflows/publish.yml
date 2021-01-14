@@ -1,5 +1,10 @@
 name: Publish Website
 on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        required: false
+        description: "Tags"
   push:
     branches: main
 jobs:
