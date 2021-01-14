@@ -85,6 +85,12 @@ class PodcastSiteTask extends DefaultTask {
         File outputFile = outputDirectory.map { Directory it -> it.file("index.html") }.get().asFile
         outputFile.createNewFile()
         outputFile.text = indexText(podcast)
+
+        for (Episode e : podcast.episodes) {
+            outputFile = outputDirectory.map { Directory it -> it.file((e.getEpisode() + "").padLeft(3, '0') + ".html") }.get().asFile
+            outputFile.createNewFile()
+            outputFile.text = indexText(podcast, e)
+        }
     }
 
     String subscribeText(String name) {
@@ -101,7 +107,7 @@ class PodcastSiteTask extends DefaultTask {
     }
 
     @CompileDynamic
-    String indexText(Podcast podcast) {
+    String indexText(Podcast podcast, Episode e = null) {
         String fileText = template.get().asFile.text
         String publicationDate = JSON_FEED_FORMAT.format(new Date())
         fileText = fileText.replaceAll('@date_modified@', publicationDate)
@@ -113,23 +119,26 @@ class PodcastSiteTask extends DefaultTask {
         fileText = fileText.replaceAll('@author@', podcast.author)
         fileText = fileText.replaceAll('@podcastUrl@', podcast.link)
         fileText = fileText.replaceAll('@twitter@', twitter.get())
-        fileText = fileText.replaceAll('@podcastName@', podcast.title)
-        fileText = fileText.replaceAll('@podcastDescription@', podcast.description)
+        fileText = fileText.replaceAll('@podcastName@', (e!= null ? (e.title + ' | ' + podcast.title) : podcast.title))
+        fileText = fileText.replaceAll('@podcastDescription@', (e!= null ? (e.description) : podcast.description))
 
         String episodesText = ''
-        for (Episode episode : podcast.episodes) {
+        for (Episode episode : (e != null ? [e] : podcast.episodes)) {
             String episodeFileText = episodeTemplate.get().asFile.text
 
             episodeFileText = episodeFileText.replaceAll('@episodesize@', "${episode.size}")
             episodeFileText = episodeFileText.replaceAll('@episodeurl@', "${episode.url}")
             episodeFileText = episodeFileText.replaceAll('@seasoncount@', "${episode.season}")
-            episodeFileText = episodeFileText.replaceAll('@episodecount@', "${episode.episode}")
+            episodeFileText = episodeFileText.replaceAll('@episodecount@', "${episode.episode}".padLeft(3, '0'))
             episodeFileText = episodeFileText.replaceAll('@episodetitle@', episode.title)
             episodeFileText = episodeFileText.replaceAll('@episodesummary@', episode.description)
             episodeFileText = episodeFileText.replaceAll('@episodenotes@', episode.showNotes)
 
 
             episodesText += episodeFileText
+        }
+        if (e != null) {
+            episodesText += '<p class="center"><a href="./index.html">Ir a la página de inicio</a></p>'
         }
         fileText = fileText.replaceAll('@episodes@', episodesText)
         fileText
