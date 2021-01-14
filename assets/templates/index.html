@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="apple-touch-icon" sizes="64x64" href="https://media.codigobot.com/favicon.png">
+    <meta name="date" content="@date_published@" />
+    <meta name="last-modified" content="@date_modified@" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="@rss@" />
+    <link type="text/css" rel="stylesheet" href="./assets/css/main.css">
+    <title>@podcastName@</title>
+    <meta name="description" content="@podcastDescription@" >
+    <meta name="twitter:site" content="@twitter@">
+    <meta name="twitter:creator" content="@twitter@">
+    <meta property="og:url" content="@podcastUrl@"/>
+    <meta property="og:title" content="@podcastName@ podcast"/>
+    <meta name="twitter:title" content="@podcastName@ podcast">
+    <meta property="og:description" content="@podcastDescription@"/>
+    <meta name="twitter:description" content="@podcastDescription@.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="@artwork@" />
+    <meta name="twitter:image" content="@artwork@">
+    <meta name="robots" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" id="viewport-iphone5" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
+</head>
+<body>
+<main id="content" class="main-area">
+    <header class="intro">
+        <h1 class="podcast_title"><a href="/"><img src="@artwork@" alt="@podcastName@ Podcast" width="100%"/></a></h1>
+        <p class="podcast_summary">@podcastDescription@</p>
+
+        <div class="subscribe">
+            @subscribe@
+        </div>
+    </header>
+    <section class="episodes">@episodes@</section>
+    <footer>
+        <h3>Subscribete a @podcastName@</h3>
+        <div class="subscribe">
+            @subscribe@
+        </div>
+
+        <p class="center">Síguenos en Twitter: <a href="https://twitter.com/@twitter@">@@twitter@</a></p>
+
+        <aside>@copyright@</aside>
+    </footer>
+</main>
+</body>
+</html>
+

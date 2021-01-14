@@ -1,0 +1,61 @@
+plugins {
+    id 'base'
+}
+
+apply plugin: groovycalamari.podcastsite.PodcastSitePlugin
+
+podcastMetadata {
+    artwork = 'https://media.codigobot.com/artwork-landscape.png'
+    rss = 'https://feed.codigobot.com/rss.xml'
+    twitter = 'codigobotfm'
+    radioPublic = 'https://radiopublic.com/cdigo-bot-6nAOwE'
+    applePodcasts = 'https://podcasts.apple.com/es/podcast/c%C3%B3digo-bot/id1548425863'
+    iTunesId = '1548425863'
+    spotify = 'https://open.spotify.com/show/4KcAbjtZZEC5UnVVAGUovW'
+    outputDirectory = rootProject.file('build/dist')
+    template = rootProject.file('assets/templates/index.html')
+    episodeTemplate = rootProject.file('assets/templates/episode.html')
+    subscribeTemplate = rootProject.file('assets/templates/subscribe.html')
+}
+
+task createFolders {
+    doLast {
+        mkdir "${rootProject.file('build/dist')}/assets/images"
+        mkdir "${rootProject.file('build/dist')}/assets/css"
+        mkdir "${rootProject.file('build/dist')}/assets/fonts"
+    }
+}
+
+task copyFonts(type: Copy) {
+    dependsOn 'createFolders'
+    from "${rootProject.projectDir}/assets/fonts"
+    into "${rootProject.file('build/dist')}/assets/fonts"
+    include('*.eot')
+    include('*.svg')
+    include('*.ttf')
+    include('*.woff')
+    include('*.woff2')
+}
+
+task copyImages(type: Copy) {
+    dependsOn 'createFolders'
+    from "${rootProject.projectDir}/assets/images"
+    into "${rootProject.file('build/dist')}/assets/images"
+    include('*.svg')
+    include('*.png')
+}
+
+task copyCss(type: Copy) {
+    dependsOn 'createFolders'
+    from "${rootProject.projectDir}/assets/css"
+    into "${rootProject.file('build/dist')}/assets/css"
+    include('*.css')
+}
+
+task copyAssets {
+    dependsOn 'copyCss'
+    dependsOn 'copyImages'
+    dependsOn 'copyFonts'
+}
+
+build.dependsOn(copyAssets)
