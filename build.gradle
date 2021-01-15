@@ -12,6 +12,7 @@ podcastMetadata {
     applePodcasts = 'https://podcasts.apple.com/es/podcast/c%C3%B3digo-bot/id1548425863'
     iTunesId = '1548425863'
     //spotify = 'https://open.spotify.com/show/4KcAbjtZZEC5UnVVAGUovW'
+    pocketCasts='https://pca.st/nlz9kha6'
     outputDirectory = rootProject.file('build/dist')
     template = rootProject.file('assets/templates/index.html')
     episodeTemplate = rootProject.file('assets/templates/episode.html')
