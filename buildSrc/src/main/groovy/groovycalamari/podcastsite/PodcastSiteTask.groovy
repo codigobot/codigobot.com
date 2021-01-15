@@ -31,18 +31,23 @@ class PodcastSiteTask extends DefaultTask {
     @InputFile
     final RegularFileProperty episodeTemplate
 
-    @InputFile
-    final RegularFileProperty subscribeTemplate
-
+    @Optional
     @Input
     final Property<String> twitter
 
+    @Optional
     @Input
     final Property<String> spotify
 
+    @Optional
     @Input
     final Property<String> applePodcasts
 
+    @Optional
+    @Input
+    final Property<String> pocketCasts
+
+    @Optional
     @Input
     final Property<String> radioPublic
 
@@ -64,12 +69,12 @@ class PodcastSiteTask extends DefaultTask {
         outputDirectory = project.objects.directoryProperty()
         template = project.objects.fileProperty()
         episodeTemplate = project.objects.fileProperty()
-        subscribeTemplate = project.objects.fileProperty()
         rss = project.objects.property(String)
         twitter = project.objects.property(String)
         artwork = project.objects.property(String)
         spotify = project.objects.property(String)
         applePodcasts = project.objects.property(String)
+        pocketCasts = project.objects.property(String)
         radioPublic = project.objects.property(String)
         iTunesId = project.objects.property(String)
         buttonWidth = project.objects.property(Integer)
@@ -94,16 +99,38 @@ class PodcastSiteTask extends DefaultTask {
     }
 
     String subscribeText(String name) {
-        String text = subscribeTemplate.get().asFile.text
-        text = text.replaceAll('@iTunesId@', iTunesId.get())
-        text = text.replaceAll('@spotify@', spotify.get())
-        text = text.replaceAll('@podcastName@', name)
-        text = text.replaceAll('@applePodcasts@', applePodcasts.get())
-        text = text.replaceAll('@radioPublic@', radioPublic.get())
-        text = text.replaceAll('@rss@', rss.get())
-        text = text.replaceAll('@buttonWidth@', "" + buttonWidth.get())
-        //text = text.replaceAll('@radioPublicUrl@', radioPublicUrl)
+        String text = ''
+        
+        if (rss.get())  {
+            text += linkTo(rss.get(), name, 'RSS', buttonWidth.get(), 'rss.svg')
+        }
+        if (applePodcasts.get())  {
+            text += linkTo(applePodcasts.get(), name, 'Apple Podcasts', buttonWidth.get(), 'itunes.svg')
+        
+        }
+        if (iTunesId.get()) {
+            text += linkTo('https://overcast.fm/itunes' + iTunesId.get(), name, 'Overcast', buttonWidth.get(), 'overcast.svg')
+        
+            text += linkTo('https://castro.fm/itunes/' + iTunesId.get(), name, 'Castro', buttonWidth.get(), 'castro.svg')
+        }
+        if (pocketCasts.get())  {
+            text += linkTo(pocketCasts.get(), name, 'Pocket Casts', buttonWidth.get(), 'pocketcasts.svg')
+        }
+        if (spotify.get())  {
+            text += linkTo(spotify.get(), name, 'Spotify', buttonWidth.get(), 'spotify.svg')
+        }
+        if (radioPublic.get())  {
+            text += linkTo(radioPublic.get(), name, 'Radio Public', buttonWidth.get(), 'radioPublic.svg')
+        }
         text
+    }
+    
+    String linkTo(String link, 
+        String podcastName, 
+        String service,
+        Integer buttonWidth, 
+        String image) {    
+        '<a href="' + link + '" title="Subscribe to ' + podcastName + ' via ' + service + '" width="' + buttonWidth + '"><img src="./assets/images/' + image + '" alt="' + service + '" width="' + buttonWidth + '"></a>'
     }
 
     @CompileDynamic

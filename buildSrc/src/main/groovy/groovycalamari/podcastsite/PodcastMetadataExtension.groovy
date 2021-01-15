@@ -22,6 +22,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Optional
 
 @CompileStatic
 class PodcastMetadataExtension {
@@ -31,8 +32,6 @@ class PodcastMetadataExtension {
     final RegularFileProperty template
 
     final RegularFileProperty episodeTemplate
-
-    final RegularFileProperty subscribeTemplate
 
     final Property<String> artwork
 
@@ -44,6 +43,8 @@ class PodcastMetadataExtension {
 
     final Property<String> applePodcasts
 
+    final Property<String> pocketCasts
+
     final Property<String> radioPublic
 
     final Property<String> iTunesId
@@ -53,15 +54,15 @@ class PodcastMetadataExtension {
     PodcastMetadataExtension(Project project) {
         template = project.objects.fileProperty()
         episodeTemplate = project.objects.fileProperty()
-        subscribeTemplate = project.objects.fileProperty()
         outputDirectory = project.objects.directoryProperty()
                 .convention(project.layout.buildDirectory.dir("podcast"))
         rss = project.objects.property(String)
         artwork = project.objects.property(String)
-        twitter = project.objects.property(String)
-        spotify = project.objects.property(String)
-        applePodcasts = project.objects.property(String)
-        radioPublic = project.objects.property(String)
+        twitter = project.objects.property(String).convention('')
+        spotify = project.objects.property(String).convention('')
+        applePodcasts = project.objects.property(String).convention('')
+        pocketCasts = project.objects.property(String).convention('')
+        radioPublic = project.objects.property(String).convention('')
         iTunesId = project.objects.property(String)
         buttonWidth = project.objects.property(Integer).convention(70)
     }
