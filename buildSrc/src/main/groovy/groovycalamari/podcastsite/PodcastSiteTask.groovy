@@ -158,7 +158,7 @@ class PodcastSiteTask extends DefaultTask {
             episodeFileText = episodeFileText.replaceAll('@seasoncount@', "${episode.season}")
             episodeFileText = episodeFileText.replaceAll('@episodecount@', "${episode.episode}".padLeft(3, '0'))
             episodeFileText = episodeFileText.replaceAll('@episodetitle@', episode.title)
-            episodeFileText = episodeFileText.replaceAll('@episodedate@', episode.pubDate.substring(0, 'Sat, 29 May 2021'.length())
+            episodeFileText = episodeFileText.replaceAll('@episodedate@', episode.pubDate.substring(0, 'Sat, 29 May 2021'.length()))
             episodeFileText = episodeFileText.replaceAll('@episodesummary@', episode.description)
             episodeFileText = episodeFileText.replaceAll('@episodenotes@', episode.showNotes)
 
