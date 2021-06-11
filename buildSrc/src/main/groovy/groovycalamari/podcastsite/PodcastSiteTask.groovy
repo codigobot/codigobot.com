@@ -158,6 +158,7 @@ class PodcastSiteTask extends DefaultTask {
             episodeFileText = episodeFileText.replaceAll('@seasoncount@', "${episode.season}")
             episodeFileText = episodeFileText.replaceAll('@episodecount@', "${episode.episode}".padLeft(3, '0'))
             episodeFileText = episodeFileText.replaceAll('@episodetitle@', episode.title)
+            episodeFileText = episodeFileText.replaceAll('@episodedate@', episode.pubDate.substring(0, 'Sat, 29 May 2021'.length())
             episodeFileText = episodeFileText.replaceAll('@episodesummary@', episode.description)
             episodeFileText = episodeFileText.replaceAll('@episodenotes@', episode.showNotes)
 
@@ -184,6 +185,7 @@ class PodcastSiteTask extends DefaultTask {
             Episode episode = new Episode()
             episode.title = rss.channel.item[i].title.text()
             episode.description = rss.channel.item[i].description.text()
+            episode.pubDate = rss.channel.item[i].pubDate.text()
             episode.url = rss.channel.item[i].enclosure['@url'].text()
             episode.size = new BigDecimal(rss.channel.item[i].enclosure['@length'].text())
             episode.size = episode.size.divide(new BigDecimal("1000000"))

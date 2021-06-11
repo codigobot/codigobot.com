@@ -12,6 +12,6 @@ class Episode {
     String showNotes
     Integer episode
     Integer season
-    Date pubDate
+    String pubDate
     BigDecimal size
 }
