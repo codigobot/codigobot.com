@@ -41,6 +41,8 @@ class PodcastMetadataExtension {
 
     final Property<String> spotify
 
+    final Property<String> youtube
+
     final Property<String> applePodcasts
 
     final Property<String> pocketCasts
@@ -60,6 +62,7 @@ class PodcastMetadataExtension {
         artwork = project.objects.property(String)
         twitter = project.objects.property(String).convention('')
         spotify = project.objects.property(String).convention('')
+        youtube = project.objects.property(String).convention('')
         applePodcasts = project.objects.property(String).convention('')
         pocketCasts = project.objects.property(String).convention('')
         radioPublic = project.objects.property(String).convention('')

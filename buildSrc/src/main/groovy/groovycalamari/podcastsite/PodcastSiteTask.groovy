@@ -41,6 +41,10 @@ class PodcastSiteTask extends DefaultTask {
 
     @Optional
     @Input
+    final Property<String> youtube
+
+    @Optional
+    @Input
     final Property<String> applePodcasts
 
     @Optional
@@ -73,6 +77,7 @@ class PodcastSiteTask extends DefaultTask {
         twitter = project.objects.property(String)
         artwork = project.objects.property(String)
         spotify = project.objects.property(String)
+        youtube = project.objects.property(String)
         applePodcasts = project.objects.property(String)
         pocketCasts = project.objects.property(String)
         radioPublic = project.objects.property(String)
@@ -118,6 +123,9 @@ class PodcastSiteTask extends DefaultTask {
         }
         if (spotify.get())  {
             text += linkTo(spotify.get(), name, 'Spotify', buttonWidth.get(), 'spotify.svg')
+        }
+        if (youtube.get())  {
+            text += linkTo(youtube.get(), name, 'Youtube', buttonWidth.get(), 'youtube.png')
         }
         if (radioPublic.get())  {
             text += linkTo(radioPublic.get(), name, 'Radio Public', buttonWidth.get(), 'radioPublic.svg')

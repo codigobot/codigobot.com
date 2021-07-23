@@ -13,6 +13,7 @@ podcastMetadata {
     iTunesId = '1548425863'
     spotify = 'https://open.spotify.com/show/4KcAbjtZZEC5UnVVAGUovW'
     pocketCasts='https://pca.st/nlz9kha6'
+    youtube = 'https://www.youtube.com/channel/UCJE-j5dRWMDvz72V9dmIZRw'
     outputDirectory = rootProject.file('build/dist')
     template = rootProject.file('assets/templates/index.html')
     episodeTemplate = rootProject.file('assets/templates/episode.html')
