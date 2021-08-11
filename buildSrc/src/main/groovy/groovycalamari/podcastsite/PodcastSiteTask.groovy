@@ -103,6 +103,14 @@ class PodcastSiteTask extends DefaultTask {
         }
     }
 
+    String parseApplePodcastId(String applePodcastUrl) {
+        String prefix = 'id'
+        if (applePodcastUrl != null && applePodcastUrl.contains(prefix)) {
+            return applePodcastUrl.substring(applePodcastUrl.indexOf(prefix) + prefix.length())
+        }
+        return null
+    }
+
     String subscribeText(String name) {
         String text = ''
         
@@ -147,7 +155,10 @@ class PodcastSiteTask extends DefaultTask {
         String publicationDate = JSON_FEED_FORMAT.format(new Date())
         fileText = fileText.replaceAll('@date_modified@', publicationDate)
         fileText = fileText.replaceAll('@date_published@', publicationDate)
-
+        String applePodcastId = parseApplePodcastId(applePodcasts.get())
+        if (applePodcastId) {
+            fileText = fileText.replaceAll('@applePodcastId@', applePodcastId)
+        }
         fileText = fileText.replaceAll('@copyright@', podcast.copyright)
         fileText = fileText.replaceAll('@subscribe@', subscribeText(podcast.title))
         fileText = fileText.replaceAll('@artwork@', artwork.getOrNull() ?: podcast.artwork)
