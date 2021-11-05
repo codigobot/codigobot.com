@@ -12,6 +12,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 
 import java.text.DateFormat
@@ -26,9 +28,11 @@ class PodcastSiteTask extends DefaultTask {
     final DirectoryProperty outputDirectory
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     final RegularFileProperty template
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     final RegularFileProperty episodeTemplate
 
     @Optional
@@ -92,12 +96,13 @@ class PodcastSiteTask extends DefaultTask {
 
         Podcast podcast = parsePodcast(rssNode)
 
-        File outputFile = outputDirectory.map { Directory it -> it.file("index.html") }.get().asFile
+        File dir = outputDirectory.get().asFile
+        File outputFile = new File(dir.absolutePath + "/index.html")
         outputFile.createNewFile()
         outputFile.text = indexText(podcast)
 
         for (Episode e : podcast.episodes) {
-            outputFile = outputDirectory.map { Directory it -> it.file((e.getEpisode() + "").padLeft(3, '0') + ".html") }.get().asFile
+            outputFile = new File(dir.absolutePath + "/" + (e.getEpisode() + "").padLeft(3, '0') + ".html")
             outputFile.createNewFile()
             outputFile.text = indexText(podcast, e)
         }
@@ -165,6 +170,8 @@ class PodcastSiteTask extends DefaultTask {
         fileText = fileText.replaceAll('@author@', podcast.author)
         fileText = fileText.replaceAll('@podcastUrl@', podcast.link)
         fileText = fileText.replaceAll('@twitter@', twitter.get())
+        fileText = fileText.replaceAll('@rss@', rss.get())
+
         fileText = fileText.replaceAll('@podcastName@', (e!= null ? (e.title + ' | ' + podcast.title) : podcast.title))
         fileText = fileText.replaceAll('@podcastDescription@', (e!= null ? (e.description) : podcast.description))
 
